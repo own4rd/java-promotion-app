@@ -6,6 +6,7 @@ import br.com.lowlevel.promotion_app.models.Person;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MockPerson {
 
 
@@ -37,23 +38,20 @@ public class MockPerson {
         Person person = new Person();
         person.setAddress("Address Test" + number);
         person.setFirstName("First Name Test" + number);
-        person.setGender(getGender(number));
+        person.setGender(((number % 2)==0) ? "Male" : "Female");
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         return person;
     }
 
     public PersonVO mockVO(Integer number) {
-        return new PersonVO(
-                number.longValue(),
-                "Address Test" + number,
-                getGender(number),
-                "Last Name Test"+number,
-                "First Name Test"+number
-        );
+        PersonVO person = new PersonVO();
+        person.setAddress("Address Test" + number);
+        person.setFirstName("First Name Test" + number);
+        person.setGender(((number % 2)==0) ? "Male" : "Female");
+        person.setId(number.longValue());
+        person.setLastName("Last Name Test" + number);
+        return person;
     }
-
-    private String getGender(Integer number) {
-        return (number % 2 == 0) ? "Male" : "Female";    }
 
 }

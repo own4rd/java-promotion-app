@@ -14,6 +14,9 @@ public class PersonVO implements Serializable {
     private String lastName;
     private String firstName;
 
+    public PersonVO() {
+    }
+
     public PersonVO(Long id, String address, String gender, String lastName, String firstName) {
         this.id = id;
         this.address = address;
@@ -26,25 +29,39 @@ public class PersonVO implements Serializable {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getAddress() {
         return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getGender() {
         return gender;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getLastName() {
         return lastName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     public String getFirstName() {
         return firstName;
     }
 
-
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 }
