@@ -2,24 +2,26 @@ package br.com.lowlevel.promotion_app.services;
 
 
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
+import br.com.lowlevel.promotion_app.data.vo.v2.PersonVOV2;
 import br.com.lowlevel.promotion_app.exceptions.ResourceNotFoundException;
-import br.com.lowlevel.promotion_app.mapper.PersonMapper;
+import br.com.lowlevel.promotion_app.mapper.custom.PersonMapper;
 import br.com.lowlevel.promotion_app.models.Person;
 import br.com.lowlevel.promotion_app.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
 public class PersonService {
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
+    private final PersonMapper personMapper;
+
     private PersonRepository personRepository;
 
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonMapper personMapper, PersonRepository personRepository) {
+        this.personMapper = personMapper;
         this.personRepository = personRepository;
     }
 
@@ -57,5 +59,11 @@ public class PersonService {
         var entity =  personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
         personRepository.delete(entity);
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 personVO) {
+        logger.info("Creating one person with V2!");
+        Person person = personMapper.convertVoToEntity(personVO);
+        return personMapper.convertEntityToVo(personRepository.save(person));
     }
 }
