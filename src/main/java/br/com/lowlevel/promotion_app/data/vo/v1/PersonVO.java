@@ -1,17 +1,22 @@
 package br.com.lowlevel.promotion_app.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
 public class PersonVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
     private String address;
     private String gender;
+    @JsonProperty("first_name")
     private String lastName;
+    @JsonProperty("last_name")
     private String firstName;
 
     public PersonVO() {
