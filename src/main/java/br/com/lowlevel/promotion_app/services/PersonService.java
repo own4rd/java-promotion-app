@@ -1,6 +1,7 @@
 package br.com.lowlevel.promotion_app.services;
 
 
+import br.com.lowlevel.promotion_app.controllers.PersonController;
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
 import br.com.lowlevel.promotion_app.data.vo.v2.PersonVOV2;
 import br.com.lowlevel.promotion_app.exceptions.ResourceNotFoundException;
@@ -9,6 +10,8 @@ import br.com.lowlevel.promotion_app.mapper.custom.PersonMapper;
 import br.com.lowlevel.promotion_app.models.Person;
 import br.com.lowlevel.promotion_app.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -35,7 +38,9 @@ public class PersonService {
         logger.info("Finding one person!");
         var entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
-        return ModelMapperFactory.parseObject(entity, PersonVO.class);
+        PersonVO vo = ModelMapperFactory.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return vo;
     }
 
     public PersonVO create(PersonVO personVO) {
@@ -47,7 +52,7 @@ public class PersonService {
     public PersonVO update(PersonVO personVO) {
         logger.info("Updating one person!");
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
-        var entity =  personRepository.findById(person.getId())
+        var entity =  personRepository.findById(personVO.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
         return ModelMapperFactory.parseObject(personRepository.save(entity), PersonVO.class);
     }

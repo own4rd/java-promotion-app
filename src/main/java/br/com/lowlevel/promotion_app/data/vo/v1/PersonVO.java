@@ -3,15 +3,16 @@ package br.com.lowlevel.promotion_app.data.vo.v1;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @JsonPropertyOrder({"id", "first_name", "last_name", "address", "gender"})
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Long key;
     private String address;
     private String gender;
     @JsonProperty("first_name")
@@ -22,20 +23,20 @@ public class PersonVO implements Serializable {
     public PersonVO() {
     }
 
-    public PersonVO(Long id, String address, String gender, String lastName, String firstName) {
-        this.id = id;
+    public PersonVO(Long key, String address, String gender, String lastName, String firstName) {
+        this.key = key;
         this.address = address;
         this.gender = gender;
         this.lastName = lastName;
         this.firstName = firstName;
     }
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getAddress() {
