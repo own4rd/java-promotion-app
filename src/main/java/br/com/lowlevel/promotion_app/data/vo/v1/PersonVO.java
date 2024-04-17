@@ -3,6 +3,7 @@ package br.com.lowlevel.promotion_app.data.vo.v1;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -13,11 +14,13 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     private static final long serialVersionUID = 1L;
 
     private Long key;
+    @NotEmpty
     private String address;
     private String gender;
-    @JsonProperty("first_name")
-    private String lastName;
     @JsonProperty("last_name")
+    private String lastName;
+    @NotEmpty(message = "Nome obrigatório!")
+    @JsonProperty("first_name")
     private String firstName;
 
     public PersonVO() {

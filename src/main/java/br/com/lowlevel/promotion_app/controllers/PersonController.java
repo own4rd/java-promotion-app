@@ -4,6 +4,7 @@ package br.com.lowlevel.promotion_app.controllers;
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
 import br.com.lowlevel.promotion_app.data.vo.v2.PersonVOV2;
 import br.com.lowlevel.promotion_app.services.PersonService;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class PersonController {
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public PersonVO create(@RequestBody PersonVO person) {
+    public PersonVO create(@Valid @RequestBody PersonVO person) {
         return personService.create(person);
     }
 
