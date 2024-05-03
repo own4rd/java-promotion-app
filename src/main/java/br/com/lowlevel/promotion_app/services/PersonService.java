@@ -31,7 +31,11 @@ public class PersonService {
 
     public List<PersonVO> findAll() {
         logger.info("Find all people");
-        return ModelMapperFactory.parseListObjects(personRepository.findAll(), PersonVO.class);
+        var personsVO = ModelMapperFactory.parseListObjects(personRepository.findAll(), PersonVO.class);
+        personsVO.stream().forEach(personVO -> {
+            personVO.add(linkTo(methodOn(PersonController.class).findById(personVO.getKey())).withSelfRel());
+        });
+        return personsVO;
     }
 
     public PersonVO findById(Long id) {
@@ -46,7 +50,10 @@ public class PersonService {
     public PersonVO create(PersonVO personVO) {
         logger.info("Creating one person!");
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
-        return ModelMapperFactory.parseObject(personRepository.save(person), PersonVO.class);
+        var vo = ModelMapperFactory.parseObject(personRepository.save(person), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+        return vo;
+
     }
 
     public PersonVO update(PersonVO personVO) {
@@ -54,7 +61,15 @@ public class PersonService {
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
         var entity =  personRepository.findById(personVO.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
-        return ModelMapperFactory.parseObject(personRepository.save(entity), PersonVO.class);
+
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+
+        var vo = ModelMapperFactory.parseObject(personRepository.save(entity), PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+        return vo;
     }
 
     public void delete(Long id) {
@@ -67,6 +82,7 @@ public class PersonService {
     public PersonVOV2 createV2(PersonVOV2 personVO) {
         logger.info("Creating one person with V2!");
         Person person = personMapper.convertVoToEntity(personVO);
-        return personMapper.convertEntityToVo(personRepository.save(person));
+        var vo = personMapper.convertEntityToVo(personRepository.save(person));
+        return vo;
     }
 }
