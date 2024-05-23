@@ -4,6 +4,7 @@ package br.com.lowlevel.promotion_app.services;
 import br.com.lowlevel.promotion_app.controllers.PersonController;
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
 import br.com.lowlevel.promotion_app.data.vo.v2.PersonVOV2;
+import br.com.lowlevel.promotion_app.exceptions.RequiredObjectIsNullException;
 import br.com.lowlevel.promotion_app.exceptions.ResourceNotFoundException;
 import br.com.lowlevel.promotion_app.mapper.ModelMapperFactory;
 import br.com.lowlevel.promotion_app.mapper.custom.PersonMapper;
@@ -48,6 +49,9 @@ public class PersonService {
     }
 
     public PersonVO create(PersonVO personVO) {
+        if (personVO == null) {
+            throw new RequiredObjectIsNullException();
+        }
         logger.info("Creating one person!");
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
         var vo = ModelMapperFactory.parseObject(personRepository.save(person), PersonVO.class);
@@ -57,6 +61,9 @@ public class PersonService {
     }
 
     public PersonVO update(PersonVO personVO) {
+        if (personVO == null) {
+            throw new RequiredObjectIsNullException();
+        }
         logger.info("Updating one person!");
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
         var entity =  personRepository.findById(personVO.getKey())

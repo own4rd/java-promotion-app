@@ -1,6 +1,7 @@
 package br.com.lowlevel.promotion_app.services;
 
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
+import br.com.lowlevel.promotion_app.exceptions.RequiredObjectIsNullException;
 import br.com.lowlevel.promotion_app.models.Person;
 import br.com.lowlevel.promotion_app.repositories.PersonRepository;
 import br.com.lowlevel.promotion_app.unittests.mapper.mocks.MockPerson;
@@ -126,6 +127,27 @@ class PersonServiceTest {
         assertEquals("First Name Test1", result.getFirstName());
         assertEquals("Last Name Test1", result.getLastName());
         assertEquals("Female", result.getGender());
+    }
+    @Test
+    void createWithNullPersonException() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            personService.create(null);
+        });
+        String expectedMessage = "It's not allowed to persist a null object.";
+        String currentMessage = exception.getMessage();
+
+        assertTrue(currentMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void updateWithNullPersonException() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            personService.update(null);
+        });
+        String expectedMessage = "It's not allowed to persist a null object.";
+        String currentMessage = exception.getMessage();
+
+        assertTrue(currentMessage.contains(expectedMessage));
     }
 
     @Test
