@@ -1,6 +1,8 @@
 package br.com.lowlevel.promotion_app.mapper;
 
+import br.com.lowlevel.promotion_app.data.vo.v1.BookVO;
 import br.com.lowlevel.promotion_app.data.vo.v1.PersonVO;
+import br.com.lowlevel.promotion_app.models.Book;
 import br.com.lowlevel.promotion_app.models.Person;
 import org.modelmapper.ModelMapper;
 
@@ -13,6 +15,8 @@ public class ModelMapperFactory {
     static {
         modelMapper.createTypeMap(Person.class, PersonVO.class).addMapping(Person::getId, PersonVO::setKey);
         modelMapper.createTypeMap(PersonVO.class, Person.class).addMapping(PersonVO::getKey, Person::setId);
+        modelMapper.createTypeMap(Book.class, BookVO.class).addMapping(Book::getId, BookVO::setKey);
+        modelMapper.createTypeMap(BookVO.class, Book.class).addMapping(BookVO::getKey, Book::setId);
     }
 
     public static <O, D> D parseObject(O origin, Class<D> destination) {
