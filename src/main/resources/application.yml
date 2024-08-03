@@ -1,0 +1,24 @@
+cors:
+  originPatterns: http://localhost:8080,http://localhost:3000
+
+spring:
+  application:
+    name: promotion_app
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rest_springboot
+    username: postgres
+    password: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+springdoc:
+  paths-to-match: /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
