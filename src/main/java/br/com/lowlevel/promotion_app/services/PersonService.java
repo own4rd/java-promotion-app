@@ -11,19 +11,18 @@ import br.com.lowlevel.promotion_app.mapper.custom.PersonMapper;
 import br.com.lowlevel.promotion_app.models.Person;
 import br.com.lowlevel.promotion_app.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.logging.Logger;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 public class PersonService {
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
-
     private final PersonMapper personMapper;
-
-    private PersonRepository personRepository;
+    private final Logger logger = Logger.getLogger(PersonService.class.getName());
+    private final PersonRepository personRepository;
 
     public PersonService(PersonMapper personMapper, PersonRepository personRepository) {
         this.personMapper = personMapper;
@@ -66,9 +65,8 @@ public class PersonService {
         }
         logger.info("Updating one person!");
         Person person = ModelMapperFactory.parseObject(personVO, Person.class);
-        var entity =  personRepository.findById(personVO.getKey())
+        var entity = personRepository.findById(personVO.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
-
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setAddress(person.getAddress());
@@ -81,7 +79,7 @@ public class PersonService {
 
     public void delete(Long id) {
         logger.info("Deleting one person");
-        var entity =  personRepository.findById(id)
+        var entity = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records for this ID!"));
         personRepository.delete(entity);
     }

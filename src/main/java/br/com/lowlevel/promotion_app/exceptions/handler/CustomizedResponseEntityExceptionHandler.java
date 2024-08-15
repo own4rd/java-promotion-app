@@ -1,6 +1,7 @@
 package br.com.lowlevel.promotion_app.exceptions.handler;
 
 import br.com.lowlevel.promotion_app.exceptions.ExceptionResponse;
+import br.com.lowlevel.promotion_app.exceptions.InvalidJwtAuthenticationException;
 import br.com.lowlevel.promotion_app.exceptions.RequiredObjectIsNullException;
 import br.com.lowlevel.promotion_app.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -62,11 +63,23 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) ->{
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    public final ResponseEntity<ExceptionResponse> invertJwtAuthenticationException(
+            Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 }
