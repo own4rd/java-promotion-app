@@ -1,13 +1,12 @@
 package br.com.lowlevel.promotion_app.integrationtests.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.NotEmpty;
-import org.springframework.hateoas.RepresentationModel;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlRootElement
 public class PersonVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
