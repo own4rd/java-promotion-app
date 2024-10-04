@@ -45,8 +45,19 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         JwtTokenFilter customFilter = new JwtTokenFilter(jwtTokenProvider);
-        return http.httpBasic(basic -> basic.disable()).csrf(csrf -> csrf.disable()).addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers("/auth/signin", "/auth/refresh/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll().requestMatchers("/api/**").authenticated().requestMatchers("/users").denyAll()).cors(cors -> {
-        }).build();
+        return http.httpBasic(basic -> basic.disable()).csrf(csrf ->
+                        csrf.disable())
+                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers("/auth/signin", "/auth/refresh/**", "/swagger-ui/**", "/v3/api-docs/**")
+                        .permitAll()
+                        .requestMatchers("/api/**")
+                        .authenticated()
+                        .requestMatchers("/users")
+                        .denyAll()).cors(cors -> {
+                })
+                .build();
 
     }
 }
