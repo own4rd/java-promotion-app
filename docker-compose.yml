@@ -4,6 +4,7 @@ services:
     image: deevi/promotion-app
     container_name: app_promotion
     restart: always
+    working_dir: .
     build:
       context: .
     depends_on:
