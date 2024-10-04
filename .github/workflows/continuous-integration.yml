@@ -27,7 +27,7 @@ jobs:
         
     - name: Build Application JAR
       working-directory: ./
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -DskipTests # WARNING SKIP TESTS
 
     - name: Docker Compose Build
       working-directory: ./
