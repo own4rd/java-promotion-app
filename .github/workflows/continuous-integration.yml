@@ -26,7 +26,6 @@ jobs:
         cache: maven
         
     - name: Build Application JAR
-      working-directory: ./
       run: mvn clean package -DskipTests 
 
     - name: List target directory
@@ -36,7 +35,6 @@ jobs:
       run: docker system prune -f
 
     - name: Docker Compose Build
-      working-directory: ./
       run: docker compose build
 
     - name: Push to DockerHub
