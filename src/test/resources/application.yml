@@ -3,7 +3,7 @@ server:
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000
 file:
-  upload-dir: /home/ownard/Downloads
+  upload-dir: /home/runner/work/promotion-api/uploadDir
 security:
   jwt:
     token:
