@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - master
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,13 @@ jobs:
     - name: Build Application JAR
       working-directory: ./
       run: mvn clean package -DskipTests 
-      
+
+    - name: List target directory
+      run: ls -la target/
+
+    - name: Docker Cleanup
+      run: docker system prune -f
+
     - name: Docker Compose Build
       working-directory: ./
       run: docker compose build
